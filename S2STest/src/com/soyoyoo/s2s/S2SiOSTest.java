@@ -1,6 +1,6 @@
 /*
  * 		Server2Server test
- * 		by JeeWook
+ * 		by JeeWook Kim
  */
 package com.soyoyoo.s2s;
 
