@@ -2,6 +2,7 @@
  * 		GA Measurement Protocol demo
  * 		Read CRM data from a csv file and send hits using measurement protocol
  * 		by JeeWook Kim
+ * 
  */
 package jw.demo;
 
@@ -36,6 +37,7 @@ public class GAMPDemo {
 		CSVParser parser;
 		URI uri;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
+		// read CRM data from a CSV file
 		String homepath = System.getProperty("user.home");
 		try {
 			parser = new CSVParser(
@@ -43,17 +45,16 @@ public class GAMPDemo {
 							homepath+"/cid-ltv-sessions-20170916.csv"),
 					format);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			throw e1;
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			throw e1;
 		}
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 
 		for (CSVRecord record : parser) {
+			// prepare name value parameters to send using http post
 			params.clear();
 			params.add(new BasicNameValuePair("v", "1"));
 			params.add(new BasicNameValuePair("tid", "UA-54388314-3"));
@@ -63,7 +64,7 @@ public class GAMPDemo {
 			params.add(new BasicNameValuePair("ea", "update"));
 			params.add(new BasicNameValuePair("cd6", record.get("ltv")));
 			params.add(new BasicNameValuePair("ni", "1"));
-
+			// send GA hits using measurement protocol
 			try {
 				uri = new URIBuilder().setScheme("https")
 						.setHost("www.google-analytics.com")
@@ -79,7 +80,6 @@ public class GAMPDemo {
 				System.out.println(response.getStatusLine());
 				response.close();
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
