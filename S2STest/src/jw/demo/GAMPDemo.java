@@ -1,15 +1,15 @@
 /*
- * 		GA Measurement Protocol test
+ * 		GA Measurement Protocol demo
+ * 		Read CRM data from a csv file and send hits using measurement protocol
  * 		by JeeWook Kim
  */
-package com.soyoyoo.s2s;
+package jw.demo;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,7 +28,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
 
-public class GAMPTest {
+public class GAMPDemo {
 	public static void main(String[] args) throws Exception {
 		CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
 
@@ -36,11 +36,11 @@ public class GAMPTest {
 		CSVParser parser;
 		URI uri;
 		CloseableHttpClient httpclient = HttpClients.createDefault();
-		
+		String homepath = System.getProperty("user.home");
 		try {
 			parser = new CSVParser(
 					new FileReader(
-							"/Users/jeewook/Documents/01.Products/01.GA/BigQuery/cid-ltv-sessions-20170916.csv"),
+							homepath+"/cid-ltv-sessions-20170916.csv"),
 					format);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
