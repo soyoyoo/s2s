@@ -43,7 +43,7 @@ public class GAMPDemo {
 			parser = new CSVParser(
 					new FileReader(
 							homepath+"/cid-ltv-sessions-20170916.csv"),
-					format);
+					format); // need to change to your own CRM csv file
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 			throw e1;
@@ -57,12 +57,12 @@ public class GAMPDemo {
 			// prepare name value parameters to send using http post
 			params.clear();
 			params.add(new BasicNameValuePair("v", "1"));
-			params.add(new BasicNameValuePair("tid", "UA-54388314-3"));
+			params.add(new BasicNameValuePair("tid", "UA-54388314-3")); // need to change to your tracking id
 			params.add(new BasicNameValuePair("cid", record.get("cid")));
 			params.add(new BasicNameValuePair("t", "event"));
 			params.add(new BasicNameValuePair("ec", "crm"));
 			params.add(new BasicNameValuePair("ea", "update"));
-			params.add(new BasicNameValuePair("cd6", record.get("ltv")));
+			params.add(new BasicNameValuePair("cd6", record.get("ltv"))); // set value to custom dimension 6
 			params.add(new BasicNameValuePair("ni", "1"));
 			// send GA hits using measurement protocol
 			try {
