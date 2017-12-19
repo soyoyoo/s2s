@@ -1,4 +1,4 @@
-GAMPDemo.jave used the following Apache open source library
+GAMPDemo.java used the following Apache open source library
 	commons-csv-1.1.jar
 	commons-io-2.5.jar
 	commons-logging-1.2.jar
