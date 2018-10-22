@@ -36,53 +36,61 @@ public class GAMPCSV {
 
 		// create the Options
 		Options options = new Options();
-		options.addOption("i", "input", true, "csv input file path");
-		options.addOption("c", "column", true, "cid column name");
-		options.addOption("p", "property", true, "GA property tracking ID");
-		options.addOption("e", "category", true, "event category");
-		options.addOption("a", "action", true, "event action");
-		options.addOption("d", "dimension", true, "custom dimension index");
-		options.addOption("v", "value", true, "custom dimension value");
-		
+		options.addOption("file", true, "csv input file path");
+		options.addOption("cid", true, "cid field name in a csv input file");
+		options.addOption("tid", true, "GA property tracking ID");
+		options.addOption("ec", true, "event category");
+		options.addOption("ea", true, "event action");
+		options.addOption("dh", true, "document host name");
+		options.addOption("dp", true, "document path");
+		for (int i=1; i<= 200; i++) {
+			options.addOption("cd"+i, "dimension"+i, true, "custom dimension index "+i);
+		}
         HelpFormatter formatter = new HelpFormatter();
-        String filepath = null;
-        String cidcolumn = null;
-        String property = null;
-        String eventCategory = null;
-        String eventAction = null;
-        String cdindex = null;
-        String cdvalue = null;
+        String file = null;
+        String cid = null;
+        String tid = null;
+        String ec = null;
+        String ea = null;
+        String [] cd = new String[200];
+        String dh = null;
+        String dp = null;
         int count =1;
         try {
         	CommandLine line = clparser.parse( options, args );
-        	if( line.hasOption( "input" ) ) {
-        		filepath = line.getOptionValue("input");
-        		System.out.println("filepath="+filepath);        		
-        	} else throw new Exception("no value for argument --input");
-        	if( line.hasOption( "column" ) ) {
-        		cidcolumn = line.getOptionValue("column");
-        		System.out.println("cidcolumn="+cidcolumn);
-        		
-        	} else throw new Exception("no value for argument --column");
-        	if( line.hasOption( "property" ) ) {
-        		property = line.getOptionValue("property");
-        		System.out.println("property="+property);
-        	} else throw new Exception("no value for argument --property");
-            if( line.hasOption( "category" ) ) {
-            	eventCategory = line.getOptionValue("category"); 
-            	System.out.println("eventCategory="+eventCategory);
-            } else throw new Exception("no value for argument --category");
-            if( line.hasOption( "action" ) ) {
-            	eventAction = line.getOptionValue("action"); 
-            	System.out.println("eventAction="+eventAction);
-            } else throw new Exception("no value for argument --action");
-            if( line.hasOption( "dimension" ) ) {
-            	cdindex = line.getOptionValue("dimension"); 
-            	System.out.println("cdindex="+cdindex);
+        	if( line.hasOption( "file" ) ) {
+        		file = line.getOptionValue("file");
+        		System.out.println("file="+file);        		
+        	} else throw new Exception("no value for argument -file");
+        	if( line.hasOption( "cid" ) ) {
+        		cid = line.getOptionValue("cid");
+        		System.out.println("cid="+cid);
+        	} else throw new Exception("no value for argument -field");
+        	if( line.hasOption( "tid" ) ) {
+        		tid = line.getOptionValue("tid");
+        		System.out.println("tid="+tid);
+        	} else throw new Exception("no value for argument -property");
+            if( line.hasOption( "ec" ) ) {
+            	ec = line.getOptionValue("ec"); 
+            	System.out.println("ec="+ec);
+            } else throw new Exception("no value for argument -ec");
+            if( line.hasOption( "ea" ) ) {
+            	ea = line.getOptionValue("ea"); 
+            	System.out.println("ea="+ea);
+            } else throw new Exception("no value for argument -ea");
+            for (int i=1; i<= 200; i++) {
+            	if( line.hasOption( "cd"+i ) ) {
+            		cd[i] = line.getOptionValue("cd"+i); 
+            		System.out.println("cd"+i+"="+cd[i]);
+            	}
+            }  
+            if( line.hasOption( "dh" ) ) {
+            	dh = line.getOptionValue("dh"); 
+            	System.out.println("dh="+dh);
             }
-            if( line.hasOption( "value" ) ) {
-            	cdvalue = line.getOptionValue("value"); 
-            	System.out.println("cdvalue="+cdvalue);
+            if( line.hasOption( "dp" ) ) {
+            	dh = line.getOptionValue("dp"); 
+            	System.out.println("dp="+dp);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -96,35 +104,32 @@ public class GAMPCSV {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 
 		try {
-			
-			parser = new CSVParser(
-					new FileReader(
-							filepath),
-					format);
+			parser = new CSVParser(new FileReader(file), format);
 		} catch (FileNotFoundException e1) {
-			
 			e1.printStackTrace();
 			throw e1;
 		} catch (IOException e1) {
-			
 			e1.printStackTrace();
 			throw e1;
 		}
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
+	List<NameValuePair> params = new ArrayList<NameValuePair>();
 		Date start = new Date();
 		System.out.println("start time="+start.toString());
 		for (CSVRecord record : parser) {
 			params.clear();
 			params.add(new BasicNameValuePair("v", "1"));
-			params.add(new BasicNameValuePair("tid", property));
-			params.add(new BasicNameValuePair("cid", record.get(cidcolumn)));
+			params.add(new BasicNameValuePair("tid", tid));
+			params.add(new BasicNameValuePair("cid", record.get(cid)));
 			params.add(new BasicNameValuePair("t", "event"));
-			params.add(new BasicNameValuePair("ec", eventCategory));
-			params.add(new BasicNameValuePair("ea", eventAction));
-			if (cdindex != null && cdvalue != null)
-				params.add(new BasicNameValuePair("cd"+cdindex, cdvalue));			
+			params.add(new BasicNameValuePair("ec", ec));
+			params.add(new BasicNameValuePair("ea", ea));
+			for (int i=1; i<= 200; i++) {
+				if (cd[i] != null)
+					params.add(new BasicNameValuePair("cd"+i, cd[i]));	
+			}
 			params.add(new BasicNameValuePair("ni", "1"));
-
+			if (dh != null) params.add(new BasicNameValuePair("dh", dh));
+			if (dp != null) params.add(new BasicNameValuePair("dp", dp));
 			try {
 				uri = new URIBuilder().setScheme("https")
 						.setHost("www.google-analytics.com")
@@ -150,7 +155,7 @@ public class GAMPCSV {
 		System.out.println("end time="+end.toString());
 		long seconds = (end.getTime()-start.getTime())/1000;
 		System.out.println("duration(sec)="+seconds);
-		System.out.println("requests/sec="+count/seconds);
+		System.out.println("requests/sec="+(count-1)/seconds);
 		// close the parser
 		parser.close();
 
