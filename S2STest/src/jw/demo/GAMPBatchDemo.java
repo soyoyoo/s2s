@@ -1,14 +1,19 @@
-//  
-/*  GA MP demo
-  By JeeWook Kim
-  POST /batch HTTP/1.1
-  Host: www.google-analytics.com
-	
-    send GA hits in batch using measurement protocol, for example (need to change the tid, cid, cd6, etc)
-	v=1&tid=UA-54388314-3&cid=014951771.1499372497&t=event&ec=crm&ea=update&cd6=100&ni=1
-	v=1&tid=UA-54388314-3&cid=103460135.1499090342&t=event&ec=crm&ea=update&cd6=90&ni=1
-	v=1&tid=UA-54388314-3&cid=103579386.1499068372&t=event&ec=crm&ea=update&cd6=80&ni=1
-*/
+/*  
+ *  	GA Measurement Protocol demo
+ * 		By JeeWook Kim
+ * 
+ * 
+ * 		Samples are offered on as-is basis, and designed only to provide you with certain examples of how such code samples could be utilized.
+ *      By implementing any of Samples, you agree to solely assume all responsibility for any consequences that arise from such implementation.
+ *
+ *	 	POST /batch HTTP/1.1
+ * 		Host: www.google-analytics.com
+ *	
+ *   	send GA hits in batch using measurement protocol, for example (need to change the tid, cid, cd6, etc)
+ *		v=1&tid=UA-54388314-3&cid=014951771.1499372497&t=event&ec=crm&ea=update&cd6=100&ni=1
+ *		v=1&tid=UA-54388314-3&cid=103460135.1499090342&t=event&ec=crm&ea=update&cd6=90&ni=1
+ *		v=1&tid=UA-54388314-3&cid=103579386.1499068372&t=event&ec=crm&ea=update&cd6=80&ni=1
+ */
 
 package jw.demo;
 

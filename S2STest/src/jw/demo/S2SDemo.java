@@ -1,6 +1,10 @@
 /*
  * 		Server2Server demo
  * 		by JeeWook Kim
+ *
+ * 		Samples are offered on as-is basis, and designed only to provide you with certain examples of how such code samples could be utilized.
+ *      By implementing any of Samples, you agree to solely assume all responsibility for any consequences that arise from such implementation.
+ *
  */
 package jw.demo;
 

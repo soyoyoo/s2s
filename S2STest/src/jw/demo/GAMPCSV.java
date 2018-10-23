@@ -1,6 +1,10 @@
 /*
  * 		GA Measurement Protocol demo
  * 		by JeeWook Kim
+ * 
+ * 		Samples are offered on as-is basis, and designed only to provide you with certain examples of how such code samples could be utilized.
+ *      By implementing any of Samples, you agree to solely assume all responsibility for any consequences that arise from such implementation.
+ *
  */
 package jw.demo;
 
@@ -52,7 +56,7 @@ public class GAMPCSV {
         String tid = null;
         String ec = null;
         String ea = null;
-        String [] cd = new String[200];
+        String [] cd = new String[201];
         String dh = null;
         String dp = null;
         int count =1;
@@ -89,7 +93,7 @@ public class GAMPCSV {
             	System.out.println("dh="+dh);
             }
             if( line.hasOption( "dp" ) ) {
-            	dh = line.getOptionValue("dp"); 
+            	dp = line.getOptionValue("dp"); 
             	System.out.println("dp="+dp);
             }
         } catch (Exception e) {
@@ -101,8 +105,11 @@ public class GAMPCSV {
         CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
 		CSVParser parser;
 		URI uri;
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-
+		String userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36";
+		CloseableHttpClient httpclient = HttpClients.custom()
+                .setUserAgent(userAgent)
+                .build();
+			
 		try {
 			parser = new CSVParser(new FileReader(file), format);
 		} catch (FileNotFoundException e1) {
@@ -154,6 +161,7 @@ public class GAMPCSV {
 		Date end = new Date();
 		System.out.println("end time="+end.toString());
 		long seconds = (end.getTime()-start.getTime())/1000;
+		if (seconds == 0) seconds = 1;
 		System.out.println("duration(sec)="+seconds);
 		System.out.println("requests/sec="+(count-1)/seconds);
 		// close the parser
